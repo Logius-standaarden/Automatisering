@@ -16,7 +16,7 @@ with open('muffet.json') as file:
                 try:  # Double-check
                     r = requests.get(link['url'], timeout=5)
                     if r.status_code == 200:
-                        content += '_Passed retest: ' + link['url'] + '_\n\n'
+                        content += '\n_Passed retest: ' + link['url'] + '_\n'
                         continue  # Passed
                 except:
                     print('Could not double-check ' + link['url'])
