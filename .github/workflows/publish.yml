@@ -107,10 +107,10 @@ jobs:
         if: steps.findcomment.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
         env:
-          PREVIEW_LINK_URL: $ORGANISATION_URL/Publicatie-Preview/$FULL_REPOSITORY_NAME
+          PREVIEW_LINK_URL: $ORGANISATION_URL/Publicatie-Preview/${{ vars.FULL_REPOSITORY_NAME }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            [Preview link voor pull request]($PREVIEW_LINK_URL)
-            [Diff met W3CDiff](https://services.w3.org/htmldiff?doc1=$ORGANISATION_URL/${{ github.event.repository.name }}&doc2=$PREVIEW_LINK_URL)
+            [Preview link voor pull request](${{ vars.PREVIEW_LINK_URL }})
+            [Diff met W3CDiff](https://services.w3.org/htmldiff?doc1=$ORGANISATION_URL/${{ github.event.repository.name }}&doc2=${{ vars.PREVIEW_LINK_URL }})
 
