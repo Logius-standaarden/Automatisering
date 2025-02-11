@@ -39,7 +39,7 @@ jobs:
     name: Upload develop artifacts
     runs-on: ubuntu-latest
     # if: ${{ github.event_name == 'push' && github.repository_owner == 'Logius-standaarden' && github.head_ref == 'develop'}}
-    if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.number == 166 }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 166 }}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -47,6 +47,10 @@ jobs:
         with:
           path: ~/static
           key: ${{ github.run_id }}
+      - name: Rename index
+        run: |
+          cd ~/static
+          mv snapshot.html index.html
       - name: Upload static files as artifact
         id: upload_pages_artifact
         uses: actions/upload-pages-artifact@v3
