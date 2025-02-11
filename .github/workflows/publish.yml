@@ -54,11 +54,11 @@ jobs:
           rm -f *.md *.pdf *.js snapshot.html
           mkdir ~/content
           mv ./* ~/content
+          mkdir _site
+          mv ~/content/* _site
       - name: Upload static files as artifact
         id: upload_pages_artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: ~/content
   deploy-develop:
     name: Deploy develop
     environment:
