@@ -61,6 +61,9 @@ jobs:
         uses: actions/upload-pages-artifact@v3
   deploy-develop:
     name: Deploy develop
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
     environment:
       name: github-pages
       url: ${{ steps.upload_pages_artifact.outputs.page_url }}
