@@ -49,13 +49,16 @@ jobs:
           key: ${{ github.run_id }}
       - name: Rename index
         run: |
-          cd ~/static
-          mv snapshot.html index.html
+          rm index.html
+          mv ~/static/snapshot.html index.html
+          rm -f *.md *.pdf *.js snapshot.html
+          mkdir ~/content
+          mv ./* ~/content
       - name: Upload static files as artifact
         id: upload_pages_artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ~/static
+          path: ~/content
   deploy-develop:
     name: Deploy develop
     environment:
