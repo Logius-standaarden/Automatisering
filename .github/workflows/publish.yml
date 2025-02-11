@@ -35,10 +35,40 @@ jobs:
          git config user.email "api@logius.nl"
          git diff-index --quiet HEAD || git commit -m "Release: ${{ github.event.repository.name }}"
          git push
+  upload_develop_artifacts:
+    name: Upload develop artifacts
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.repository_owner == 'Logius-standaarden' && github.head_ref == 'develop'}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recover HTML
+        uses: actions/cache@v4
+        with:
+          path: ~/static
+          key: ${{ github.run_id }}
+      - name: Upload static files as artifact
+        id: upload_pages_artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ~/static
+  deploy-develop:
+    name: Deploy develop
+    environment:
+      name: github-pages
+      url: ${{ steps.upload_pages_artifact.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: upload_develop_artifacts
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
   preview:
     name: Preview
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.repository_owner == 'Logius-standaarden' && github.head_ref != 'develop' }}
+    env:
+      ORGANISATION_URL: https://logius-standaarden.github.io
+      FULL_REPOSITORY_NAME: ${{ github.event.repository.name }}/${{ github.head_ref }}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -57,9 +87,9 @@ jobs:
       - name: Commit preview
         run: |
          cd Publicatie-Preview
-         rm -f -r ${{ github.event.repository.name }}/${{ github.head_ref }}
-         mkdir -p ${{ github.event.repository.name }}/${{ github.head_ref }}
-         mv ~/content/* ${{ github.event.repository.name }}/${{ github.head_ref }}
+         rm -f -r $FULL_REPOSITORY_NAME
+         mkdir -p $FULL_REPOSITORY_NAME
+         mv ~/content/* $FULL_REPOSITORY_NAME
          git add -A
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
@@ -76,8 +106,11 @@ jobs:
       - name: Post preview link
         if: steps.findcomment.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
+        env:
+          PREVIEW_LINK_URL: $ORGANISATION_URL/Publicatie-Preview/$FULL_REPOSITORY_NAME
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            [Preview link voor pull request](https://logius-standaarden.github.io/Publicatie-Preview/${{ github.event.repository.name }}/${{ github.head_ref }})
+            [Preview link voor pull request]($PREVIEW_LINK_URL)
+            [Diff met W3CDiff](https://services.w3.org/htmldiff?doc1=$ORGANISATION_URL/${{ github.event.repository.name }}&doc2=$PREVIEW_LINK_URL)
 
