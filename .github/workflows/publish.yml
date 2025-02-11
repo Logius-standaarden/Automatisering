@@ -69,7 +69,7 @@ jobs:
     env:
       ORGANISATION_URL: https://logius-standaarden.github.io
       PREVIEW_REPOSITORY_NAME: Publicatie-Preview
-      FULL_REPOSITORY_NAME: ${{ github.event.repository.name }}/${{ github.head_ref }}
+      REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -88,9 +88,9 @@ jobs:
       - name: Commit preview
         run: |
          cd $PREVIEW_REPOSITORY_NAME
-         rm -f -r $FULL_REPOSITORY_NAME
-         mkdir -p $FULL_REPOSITORY_NAME
-         mv ~/content/* $FULL_REPOSITORY_NAME
+         rm -f -r $REPOSITORY_NAME_AND_BRANCH
+         mkdir -p $REPOSITORY_NAME_AND_BRANCH
+         mv ~/content/* $REPOSITORY_NAME_AND_BRANCH
          git add -A
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
@@ -108,7 +108,7 @@ jobs:
         if: steps.findcomment.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
         env:
-          PREVIEW_LINK_URL: ${{ env.ORGANISATION_URL }}/${{ env.PREVIEW_REPOSITORY_NAME }}/${{ env.FULL_REPOSITORY_NAME }}
+          PREVIEW_LINK_URL: ${{ env.ORGANISATION_URL }}/${{ env.PREVIEW_REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME_AND_BRANCH }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
