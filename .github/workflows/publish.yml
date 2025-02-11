@@ -38,8 +38,7 @@ jobs:
   upload_develop_artifacts:
     name: Upload develop artifacts
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name == 'push' && github.repository_owner == 'Logius-standaarden' && github.head_ref == 'develop'}}
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 166 }}
+    if: ${{ github.event_name == 'push' && github.repository_owner == 'Logius-standaarden' && github.head_ref == 'develop'}}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -62,8 +61,8 @@ jobs:
   deploy-develop:
     name: Deploy develop
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.upload_pages_artifact.outputs.page_url }}
