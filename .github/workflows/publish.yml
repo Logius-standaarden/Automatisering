@@ -68,6 +68,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.repository_owner == 'Logius-standaarden' && github.head_ref != 'develop' }}
     env:
       ORGANISATION_URL: https://logius-standaarden.github.io
+      PREVIEW_REPOSITORY_NAME: Publicatie-Preview
       FULL_REPOSITORY_NAME: ${{ github.event.repository.name }}/${{ github.head_ref }}
     steps:
       - uses: actions/checkout@v4
@@ -83,10 +84,10 @@ jobs:
          rm -f *.md *.pdf *.js snapshot.html
          mkdir ~/content
          mv ./* ~/content
-         git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/Publicatie-Preview.git
+         git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$PREVIEW_REPOSITORY_NAME.git
       - name: Commit preview
         run: |
-         cd Publicatie-Preview
+         cd $PREVIEW_REPOSITORY_NAME
          rm -f -r $FULL_REPOSITORY_NAME
          mkdir -p $FULL_REPOSITORY_NAME
          mv ~/content/* $FULL_REPOSITORY_NAME
@@ -107,10 +108,10 @@ jobs:
         if: steps.findcomment.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
         env:
-          PREVIEW_LINK_URL: $ORGANISATION_URL/Publicatie-Preview/${{ env.FULL_REPOSITORY_NAME }}
+          PREVIEW_LINK_URL: ${{ env.ORGANISATION_URL }}/${{ env.PREVIEW_REPOSITORY_NAME }}/${{ env.FULL_REPOSITORY_NAME }}
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             [Preview link voor pull request](${{ env.PREVIEW_LINK_URL }})
-            [Diff met W3CDiff](https://services.w3.org/htmldiff?doc1=$ORGANISATION_URL/${{ github.event.repository.name }}&doc2=${{ env.PREVIEW_LINK_URL }})
+            [Diff met W3CDiff](https://services.w3.org/htmldiff?doc1=${{ env.ORGANISATION_URL }}/${{ github.event.repository.name }}&doc2=${{ env.PREVIEW_LINK_URL }})
 
