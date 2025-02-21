@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 
 
@@ -37,10 +38,32 @@ for line in f:
 f.close()
 os.remove(config)
 
+def create_redirect_for_version(publishVersion):
+    root_index_file = open(f'{content}/index.html', 'w')
+    root_index_file.write("""<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Redirecting to v{publishVersion}</title>
+<meta http-equiv="refresh" content="0; URL=./{publishVersion}">
+<link rel="canonical" href="./{publishVersion}">
+""")
+    root_index_file.close()
+
+    version_without_last_number = ".".join(re.split("\.", txt)[:-1])
+
+    version_redirect_file = open(f'{content}/{version_without_last_number}/index.html', 'w')
+    version_redirect_file.write("""<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Redirecting to v{publishVersion}</title>
+<meta http-equiv="refresh" content="0; URL=../{publishVersion}">
+<link rel="canonical" href="../{publishVersion}">
+""")
+    version_redirect_file.close()
+
 if len(pubDomain) * len(shortName) > 0:
     try:
         if len(publishVersion) > 0:
-            shutil.copytree(content, f"{content}/{publishVersion}")
+            shutil.move(content, f"{content}/{publishVersion}")
+            create_redirect_for_version(publishVersion)
         path = f"publicatie/{pubDomain}/{shortName}/"
         if not os.path.exists(path):
             os.makedirs(path)
