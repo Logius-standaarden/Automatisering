@@ -13,6 +13,24 @@ jobs:
           path: ~/static
           key: ${{ github.run_id }}
       - uses: actions/checkout@v4
+      - name: Serve Files
+        uses: Eun/http-server-action@v1
+        with:
+          content-types: |
+            {
+              "css": "text/css",
+              "html": "text/html",
+              "ico": "image/x-icon",
+              "jpeg": "image/jpeg",
+              "jpg": "image/jpeg",
+              "js": "text/javascript",
+              "json": "application/json",
+              "png": "image/png",
+              "svg": "image/svg+xml",
+              "txt": "text/plain",
+              "xml": "text/xml",
+              "yml": "application/yaml"
+            }
       - name: Static HTML
         run: |
           npx respec --localhost --src index.html --out ~/static/snapshot.html
