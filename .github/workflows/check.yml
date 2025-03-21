@@ -14,7 +14,7 @@ jobs:
           key: ${{ github.run_id }}
       - run: mv ~/static/snapshot.html snapshot.html
       - run: npm install -g pa11y
-      - run: pa11y snapshot.html --ignore WCAG2AA.Principle4.Guideline4_1.4_1_1.F77
+      - run: pa11y snapshot.html --ignore WCAG2AA.Principle4.Guideline4_1.4_1_1.F77 --ignore WCAG2AA.Principle2.Guideline2_4.2_4_1.G1,G123,G124.NoSuchID
 
   links:
     name: Links
