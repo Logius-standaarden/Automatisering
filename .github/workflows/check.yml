@@ -13,8 +13,9 @@ jobs:
           path: ~/static
           key: ${{ github.run_id }}
       - run: mv ~/static/snapshot.html snapshot.html
-      - run: npm install -g pa11y
-      - run: pa11y --runner axe snapshot.html --ignore WCAG2AA.Principle4.Guideline4_1.4_1_1.F77
+      - run: npm install @axe-core/cli browser-driver-manager -g
+      - run: npx browser-driver-manager install chrome
+      - run: axe snapshot.html --exit
 
   links:
     name: Links
