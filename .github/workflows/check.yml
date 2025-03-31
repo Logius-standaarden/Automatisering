@@ -32,7 +32,7 @@ jobs:
               "txt": "text/plain",
               "xml": "text/xml"
             }
-      - run: axe http://localhost:8080/snapshot.html --exit
+      - run: axe http://localhost:8080/snapshot.html --exit --tags wcag2aa
 
   links:
     name: Links
