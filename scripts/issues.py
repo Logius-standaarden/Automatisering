@@ -81,6 +81,11 @@ for label in labels:
         date = ''
     content = warning + f'# {titel}{date}'
     content += results[1]  # Agenda
+    content += """
+## Aanmelden
+
+Dit overleg is openbaar. Aanmelden kan door te mailen naar api@logius.nl
+"""
     issues = org.get_issues(filter='all', labels=[label])
     issuesGroot = []
     issuesKlein = []
