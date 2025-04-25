@@ -37,7 +37,7 @@ jobs:
   markdownlint:
     name: Markdownlint
     runs-on: ubuntu-22.04
-    if: ${{ hashFiles('sections/') != '' }}
+    if: ${{ always() && hashFiles('sections/') != '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install markdownlint
