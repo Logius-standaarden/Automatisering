@@ -1,0 +1,12 @@
+default: true
+
+ul-style:
+  style: asterisk
+
+no-multiple-blanks:
+  maximum: 1
+
+line-length: false
+no-inline-html: false
+first-line-h1: false
+emphasis-style: false
