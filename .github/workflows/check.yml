@@ -37,7 +37,6 @@ jobs:
   markdownlint:
     name: Markdownlint
     runs-on: ubuntu-22.04
-    if: ${{ always() && hashFiles('sections/') != '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install markdownlint
@@ -45,6 +44,7 @@ jobs:
       - name: Download configuration
         run: wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-markdownlint/scripts/.markdownlint.yaml
       - name: Run linter
+        if: ${{ hashFiles('sections/') != '' }}
         run: markdownlint sections/
 
   links:
