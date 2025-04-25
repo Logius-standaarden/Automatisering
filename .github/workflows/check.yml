@@ -33,6 +33,14 @@ jobs:
               "xml": "text/xml"
             }
       - run: axe http://localhost:8080/snapshot.html --exit --tags wcag2aa
+  
+  markdownlint:
+    name: Markdownlint
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run linter
+        run: mdl sections/
 
   links:
     name: Links
