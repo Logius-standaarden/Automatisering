@@ -1,10 +1,10 @@
 default: true
 
-ul-style:
-  style: asterisk
+heading-style:
+  style: atx
 
-no-multiple-blanks:
-  maximum: 1
+ul-style:
+  style: consistent
 
 line-length: false
 no-inline-html: false
