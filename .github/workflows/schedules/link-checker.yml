@@ -1,0 +1,41 @@
+name: Check published links
+on:
+  workflow_dispatch:
+  schedule:
+    # Run on Mondays at 5:45 UTC
+    - cron: '45 5 * * 1'
+
+jobs:
+  link-checker:
+    name: Check published links
+    runs-on: ubuntu-22.04
+    if: ${{ github.repository_owner == 'Logius-standaarden' && github.repository != 'Logius-standaarden/Automatisering' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install muffet
+        run: brew install muffet
+      - name: Check published documents
+        run: |
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/compute-published-url.js
+          PUBLISHED_URL=$(node compute-published-url.js)
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/run-muffet.sh
+          bash run-muffet.sh $PUBLISHED_URL
+        continue-on-error: true
+      - name: Collect broken links
+        run: |
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/muffet-json.py
+          python muffet-json.py
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Broken links on gitdocumentatie voor ${{ github.repository }}
+          to: ${{secrets.MAIL_RECIPIENTS}}
+          from: Standaarden Bot
+          html_body: file://links.md
+          ignore_cert: true
+          convert_markdown: true
