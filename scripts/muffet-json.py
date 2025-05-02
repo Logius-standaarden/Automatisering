@@ -13,9 +13,10 @@ errors = 0
 content = ''
 
 with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
-    trimmed_json = input_file.read().rstrip()
-    print(f"Begin{trimmed_json}Einde")
-    data = json.loads(trimmed_json)
+    # De output van het Node scriptje heeft ook een print regel, dus pak alleen de json
+    json_string = input_file.readlines()[1]
+    print(f"Begin{json_string}Einde")
+    data = json.loads(json_string)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
         if re.search("publicatie\/", page['url']):
