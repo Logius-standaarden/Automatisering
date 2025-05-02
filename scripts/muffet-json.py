@@ -14,7 +14,7 @@ content = ''
 
 with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
     trimmed_json = input_file.read().rstrip()
-    print(f"Begin{trimed_json}Einde")
+    print(f"Begin{trimmed_json}Einde")
     data = json.loads(trimmed_json)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
