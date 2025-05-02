@@ -13,7 +13,9 @@ errors = 0
 content = ''
 
 with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
-    data = json.loads(input_file.read().rstrip())
+    trimmed_json = input_file.read().rstrip()
+    print(f"Begin{trimed_json}Einde")
+    data = json.loads(trimmed_json)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
         if re.search("publicatie\/", page['url']):
