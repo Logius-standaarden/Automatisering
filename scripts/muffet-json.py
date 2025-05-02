@@ -13,8 +13,9 @@ errors = 0
 content = ''
 
 with open(JSON_PATH, 'r') as input_file:
-    print(input_file.read())
-    data = json.loads(input_file.read())
+    input_string = input_file.read()
+    print(input_string)
+    data = json.loads(input_string)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
         if re.search("publicatie\/[^\/]+\/[^\/]+\/$", page['url']):
