@@ -22,8 +22,8 @@ jobs:
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/compute-published-url.js
           PUBLISHED_DOMAIN=$(node compute-published-url.js)
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/run-muffet.sh
-          # bash run-muffet.sh https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN
-          bash run-muffet.sh https://logius-standaarden.github.io/publicatie/testing/test/0.0.1/
+          # bash run-muffet.sh https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN || true
+          bash run-muffet.sh https://logius-standaarden.github.io/publicatie/testing/test/0.0.1/ || true
       - name: Collect broken links
         run: |
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/muffet-json.py

@@ -11,6 +11,7 @@ muffet \
     --header 'user-agent:Curl' \
     --ignore-fragments \
     --one-page-only \
+    --format=json \
     --buffer-size 8192 \
     $URL_TO_CHECK \
-    > muffet.json || true
+    > muffet.json
