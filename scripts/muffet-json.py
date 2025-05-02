@@ -14,11 +14,11 @@ content = ''
 
 with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
     input_string = input_file.read()
-    print(input_string)
+    print(f"Dit is de string: {input_string}En hier eindigt hij")
     data = json.loads(input_string)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
-        if re.search("publicatie\/[^\/]+\/[^\/]+\/$", page['url']):
+        if re.search("publicatie\/", page['url']):
             content += '\n### ' + page['url'] + '\n'
             page['links'] = sorted(page['links'], key=lambda k: k['url'])
             for link in page['links']:
