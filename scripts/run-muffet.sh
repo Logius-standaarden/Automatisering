@@ -13,5 +13,4 @@ muffet \
     --one-page-only \
     --format=json \
     --buffer-size 8192 \
-    $URL_TO_CHECK \
-    > muffet.json
+    $URL_TO_CHECK
