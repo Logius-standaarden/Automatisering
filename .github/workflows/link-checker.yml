@@ -1,6 +1,6 @@
 name: Check published links
 on:
-  workflow_dispatch:
+  workflow_call:
   # Uncomment waar je de workflow gebruikt
   # schedule:
     # Run on Mondays at 5:45 UTC
