@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
       - name: Install muffet
         run: brew install muffet
       - name: Check published documents
