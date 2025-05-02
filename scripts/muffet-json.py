@@ -12,9 +12,9 @@ if not os.path.exists(JSON_PATH) or os.path.getsize(JSON_PATH) == 0:
 errors = 0
 content = ''
 
-with open(JSON_PATH) as file:
-    print(file.read())
-    data = json.loads(file.read())
+with open(JSON_PATH, 'r') as input_file:
+    print(input_file.read())
+    data = json.loads(input_file.read())
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
         if re.search("publicatie\/[^\/]+\/[^\/]+\/$", page['url']):
@@ -24,7 +24,6 @@ with open(JSON_PATH) as file:
                 errors += 1
                 content += '* ' + link['url'] + ' `' + link['error'] + '`' + '\n'
 
-f = open('links.md', 'w')
-f.write('## ' + str(errors) + ' broken links\n')
-f.write(content)
-f.close()
+with open('links.md', 'w') as output_file:
+    output_file.write('## ' + str(errors) + ' broken links\n')
+    output_file.write(content)
