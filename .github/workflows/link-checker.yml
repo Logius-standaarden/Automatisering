@@ -25,11 +25,11 @@ jobs:
           # bash run-muffet.sh https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN || true
           bash run-muffet.sh https://logius-standaarden.github.io/publicatie/testing/test/0.0.1/ || true
       - name: Collect broken links
+        id: collect-broken-links
         run: |
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/muffet-json.py
           python muffet-json.py
           if [ -f "links.md" ]; then
-            echo "links.md bestaat"
             echo "has-errors=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Send email
