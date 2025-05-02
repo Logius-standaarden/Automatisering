@@ -1,11 +1,18 @@
 import json
+import os
 import re
 import requests
+import sys
+
+JSON_PATH = 'muffet.json'
+
+if not os.path.exists(JSON_PATH):
+    sys.exit(0)
 
 errors = 0
 content = ''
 
-with open('muffet.json') as file:
+with open(JSON_PATH) as file:
     data = json.load(file)
     data = sorted(data, key=lambda k: k['url'])
     for page in data:

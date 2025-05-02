@@ -13,4 +13,4 @@ muffet \
     --one-page-only \
     --buffer-size 8192 \
     $URL_TO_CHECK \
-    > muffet.json
+    > muffet.json || true
