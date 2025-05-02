@@ -6,7 +6,7 @@ import sys
 
 JSON_PATH = 'muffet.json'
 
-if not os.path.exists(JSON_PATH):
+if not os.path.exists(JSON_PATH) or os.path.getsize(JSON_PATH) == 0:
     sys.exit(0)
 
 errors = 0
