@@ -12,7 +12,7 @@ if not os.path.exists(JSON_PATH) or os.path.getsize(JSON_PATH) == 0:
 errors = 0
 content = ''
 
-with open(JSON_PATH, 'r') as input_file:
+with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
     input_string = input_file.read()
     print(input_string)
     data = json.loads(input_string)
