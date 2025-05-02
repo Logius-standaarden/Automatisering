@@ -1,15 +1,15 @@
 name: Check published links
 on:
   workflow_dispatch:
-  schedule:
+  # Uncomment waar je de workflow gebruikt
+  # schedule:
     # Run on Mondays at 5:45 UTC
-    - cron: '45 5 * * 1'
+    # - cron: '45 5 * * 1'
 
 jobs:
   link-checker:
     name: Check published links
     runs-on: ubuntu-22.04
-    if: ${{ github.repository_owner == 'Logius-standaarden' && github.repository != 'Logius-standaarden/Automatisering' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install muffet
