@@ -15,7 +15,7 @@ content = ''
 with open(JSON_PATH, 'r',  encoding='utf-8') as input_file:
     input_string = input_file.read()
     print(f"Dit is de string: {input_string}En hier eindigt hij")
-    data = json.loads(input_string)
+    data = json.loads(input_string.strip())
     data = sorted(data, key=lambda k: k['url'])
     for page in data:
         if re.search("publicatie\/", page['url']):
