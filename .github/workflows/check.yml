@@ -80,5 +80,5 @@ jobs:
         run: brew install muffet      
       - name: Check links
         run: |
-          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/run-muffet.sh
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/run-muffet.sh
           bash run-muffet.sh http://localhost:8080/snapshot.html

@@ -19,15 +19,15 @@ jobs:
         run: brew install muffet
       - name: Check published documents
         run: |
-          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/compute-published-url.js
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/compute-published-url.js
           PUBLISHED_DOMAIN=$(node compute-published-url.js)
-          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/run-muffet.sh
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/run-muffet.sh
           # bash run-muffet.sh https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN || true
           bash run-muffet.sh https://logius-standaarden.github.io/publicatie/testing/test/0.0.1/ > muffet.json || true
       - name: Collect broken links
         id: collect-broken-links
         run: |
-          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-nieuwe-link-checker/scripts/muffet-json.py
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/muffet-json.py
           python muffet-json.py
           if [ -f "links.md" ]; then
             echo "has-errors=true" >> "$GITHUB_OUTPUT"
