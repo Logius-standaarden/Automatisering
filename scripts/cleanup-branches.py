@@ -17,7 +17,7 @@ def get_repository_branches(repository_name):
         specific_repository = org.get_repo(repository_name)
         return [branch.name for branch in specific_repository.get_branches()]
     except:
-        print(f"Repository {repository_name} en kan geheel worden gedelete")
+        print(f"Repository {repository_name} bestaat niet meer en kan geheel worden gedelete")
         return []
 
 all_directories = preview_repository.get_contents("")
