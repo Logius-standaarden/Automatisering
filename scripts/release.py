@@ -18,7 +18,7 @@ def getValue(var, line):
     return val
 
 
-config = f"js/config.js"
+config = f"js/config.mjs"
 with open(config, "r", encoding="utf-8") as f:
     pubDomain = ""
     shortName = ""
