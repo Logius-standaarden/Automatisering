@@ -24,6 +24,9 @@ jobs:
          if grep -q alternateFormats ./js/config.js; then
          echo "grep=true" >> $GITHUB_OUTPUT
          fi
+         if grep -q alternateFormats ./js/config.mjs; then
+         echo "grep=true" >> $GITHUB_OUTPUT
+         fi
       - name: PDF
         if: ${{ steps.config.outputs.grep == 'true' }}
         run: |
