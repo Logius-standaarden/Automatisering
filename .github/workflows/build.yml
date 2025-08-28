@@ -16,25 +16,13 @@ jobs:
       - name: Static HTML
         run: |
           npx respec --localhost --src index.html --out ~/static/snapshot.html --haltonwarn
-      - name: Check config
-        id: config
-        if: ${{ github.event_name == 'push'}}
-        run: |
-         echo "grep=false" >> $GITHUB_OUTPUT
-         if grep -q alternateFormats ./js/config.js; then
-         echo "grep=true" >> $GITHUB_OUTPUT
-         fi
       - name: PDF
-        if: ${{ steps.config.outputs.grep == 'true' }}
         run: |
-         cp ./js/config.js config.js
-         echo "module.exports = { respecConfig };" >> config.js
-         echo "var window = {respecMermaid : {createFigures : null}};" | cat - config.js > temp && mv temp config.js
          cp ~/static/snapshot.html snapshot.html
          npm i puppeteer
          python3 -m http.server 8080 &
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/pdf.js
          rm -f *.pdf
-         node pdf.js      
+         node pdf.js
          find *.pdf
          mv *.pdf ~/static/
