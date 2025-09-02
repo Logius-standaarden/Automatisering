@@ -57,7 +57,7 @@ jobs:
         with:
           path: ~/static
           key: ${{ github.run_id }}
-      - run: mv ~/static/snapshot.html snapshot.html
+      - run: mv ~/static/snapshot.html ~/static/*.pdf .
       - name: Serve Files
         uses: Eun/http-server-action@v1
         with:
