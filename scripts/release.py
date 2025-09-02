@@ -17,26 +17,32 @@ def getValue(var, line):
     print(f"{var}: {val}")
     return val
 
+def readConfigForFile(config_file):
+    with open(config_file, "r", encoding="utf-8") as f:
+        pubDomain = ""
+        shortName = ""
+        publishVersion = ""
+    
+        for line in f:
+            if "pubDomain" in line:
+                val = getValue("pubDomain", line)
+                if val:
+                    pubDomain = val
+            elif "shortName" in line:
+                val = getValue("shortName", line)
+                if val:
+                    shortName = val
+            elif "publishVersion" in line:
+                val = getValue("publishVersion", line)
+                if val:
+                    publishVersion = val
 
-config = f"js/config.mjs"
-with open(config, "r", encoding="utf-8") as f:
-    pubDomain = ""
-    shortName = ""
-    publishVersion = ""
+        return (pubDomain, shortName, publishVersion)
 
-    for line in f:
-        if "pubDomain" in line:
-            val = getValue("pubDomain", line)
-            if val:
-                pubDomain = val
-        elif "shortName" in line:
-            val = getValue("shortName", line)
-            if val:
-                shortName = val
-        elif "publishVersion" in line:
-            val = getValue("publishVersion", line)
-            if val:
-                publishVersion = val
+try:
+    pubDomain, shortName, publishVersion = readConfigForFile("js/config.mjs")
+except:
+    pubDomain, shortName, publishVersion = readConfigForFile("js/config.js")
 
 SPECIFICATION_FOLDER = CURRENT_WORKING_DIRECTORY / "publicatie" / pubDomain / shortName
 
