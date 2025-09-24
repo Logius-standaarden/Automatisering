@@ -8,11 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/static
           key: ${{ github.run_id }}
-      - run: mv ~/static/snapshot.html snapshot.html
+      - run: mv ~/static/index.html index.html
       - run: npm install @axe-core/cli browser-driver-manager -g
       - run: npx browser-driver-manager install chrome
       - name: Serve Files
@@ -32,7 +32,7 @@ jobs:
               "txt": "text/plain",
               "xml": "text/xml"
             }
-      - run: axe http://localhost:8080/snapshot.html --exit --tags wcag2aa
+      - run: axe http://localhost:8080/index.html --exit --tags wcag2aa
   
   markdownlint:
     name: Markdownlint
@@ -53,11 +53,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/static
           key: ${{ github.run_id }}
-      - run: mv ~/static/snapshot.html ~/static/*.pdf .
+      - run: mv ~/static/*.html ~/static/*.pdf .
       - name: Serve Files
         uses: Eun/http-server-action@v1
         with:
@@ -81,4 +81,4 @@ jobs:
       - name: Check links
         run: |
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/run-muffet.sh
-          bash run-muffet.sh http://localhost:8080/snapshot.html
+          bash run-muffet.sh http://localhost:8080/index.html

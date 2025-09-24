@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/static
           key: ${{ github.run_id }}
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/static
           key: ${{ github.run_id }}
@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/static
           key: ${{ github.run_id }}

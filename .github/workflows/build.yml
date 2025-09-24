@@ -12,21 +12,28 @@ jobs:
     steps:
       - run: mkdir ~/static
       - name: Create cache
-        uses: actions/cache@v4
+        uses: actions/cache/save@v4
+        if: ${{ inputs.source_input_file_name == 'index.html' }}
         with:
           path: ~/static
           key: ${{ github.run_id }}
+      - name: Create cache
+        uses: actions/cache/save@v4
+        if: ${{ inputs.source_input_file_name != 'index.html' }}
+        with:
+          path: ~/static
+          key: ${{ github.run_id }}-${{ inputs.source_input_file_name }}
       - uses: actions/checkout@v4
       - name: Static HTML
         run: |
-          npx respec --localhost --src ${{ inputs.source_input_file_name }} --out ~/static/snapshot.html --haltonwarn
+          npx respec --localhost --src ${{ inputs.source_input_file_name }} --out ~/static/${{ inputs.source_input_file_name }} --haltonwarn
       - name: PDF
         run: |
-         cp ~/static/snapshot.html snapshot.html
+         cp ~/static/${{ inputs.source_input_file_name }} ${{ inputs.source_input_file_name }}
          npm i puppeteer
          python3 -m http.server 8080 &
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/pdf.js
          rm -f *.pdf
-         node pdf.js
+         node pdf.js ${{ inputs.source_input_file_name }}
          find *.pdf
          mv *.pdf ~/static/
