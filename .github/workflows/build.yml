@@ -32,4 +32,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ~/static
-          key: ${{ github.run_id }}${{ inputs.multiple_files && format('-{0}', inputs.source_input_file_name)) }}
+          key: ${{ github.run_id }}${{ inputs.multiple_files && format('-{0}', inputs.source_input_file_name) }}
