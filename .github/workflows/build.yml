@@ -11,18 +11,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: mkdir ~/static
-      - name: Create cache
-        uses: actions/cache/save@v4
-        if: ${{ inputs.source_input_file_name == 'index.html' }}
-        with:
-          path: ~/static
-          key: ${{ github.run_id }}
-      - name: Create cache
-        uses: actions/cache/save@v4
-        if: ${{ inputs.source_input_file_name != 'index.html' }}
-        with:
-          path: ~/static
-          key: ${{ github.run_id }}-${{ inputs.source_input_file_name }}
       - uses: actions/checkout@v4
       - name: Static HTML
         run: |
@@ -37,3 +25,15 @@ jobs:
          node pdf.js ${{ inputs.source_input_file_name }}
          find *.pdf
          mv *.pdf ~/static/
+      - name: Create cache for `index.html` (if applicable)
+        uses: actions/cache/save@v4
+        if: ${{ inputs.source_input_file_name == 'index.html' }}
+        with:
+          path: ~/static
+          key: ${{ github.run_id }}
+      - name: Create cache for input file (if applicable)
+        uses: actions/cache/save@v4
+        if: ${{ inputs.source_input_file_name != 'index.html' }}
+        with:
+          path: ~/static
+          key: ${{ github.run_id }}-${{ inputs.source_input_file_name }}
