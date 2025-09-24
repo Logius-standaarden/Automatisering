@@ -5,6 +5,9 @@ on:
       source_input_file_name:
         default: 'index.html'
         type: string
+      multiple_files:
+        default: false
+        type: boolean
 jobs:
   main:
     name: Snapshot
@@ -25,15 +28,8 @@ jobs:
          node pdf.js ${{ inputs.source_input_file_name }}
          find *.pdf
          mv *.pdf ~/static/
-      - name: Create cache for `index.html` (if applicable)
+      - name: Create cache
         uses: actions/cache/save@v4
-        if: ${{ inputs.source_input_file_name == 'index.html' }}
         with:
           path: ~/static
-          key: ${{ github.run_id }}
-      - name: Create cache for input file (if applicable)
-        uses: actions/cache/save@v4
-        if: ${{ inputs.source_input_file_name != 'index.html' }}
-        with:
-          path: ~/static
-          key: ${{ github.run_id }}-${{ inputs.source_input_file_name }}
+          key: ${{ github.run_id }}${{ inputs.multiple_files && ('-' + inputs.source_input_file_name) }}
