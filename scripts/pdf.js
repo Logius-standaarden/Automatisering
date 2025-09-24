@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const FILE_NAME = process.argv[1];
+const FILE_NAME = process.argv[2];
 
 (async () => {
     // The following is based on code from
