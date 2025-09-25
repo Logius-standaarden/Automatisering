@@ -23,7 +23,7 @@ jobs:
          cp ~/static/${{ matrix.source_input_file_name }} ${{ matrix.source_input_file_name }}
          npm i puppeteer
          python3 -m http.server 8080 &
-         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-meerdere-documenten/scripts/pdf.js
+         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/pdf.js
          rm -f *.pdf
          node pdf.js ${{ matrix.source_input_file_name }}
          find *.pdf

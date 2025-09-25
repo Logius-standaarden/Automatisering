@@ -18,7 +18,7 @@ jobs:
           key: ${{ github.run_id }}
       - name: Gather files
         run: |
-         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-meerdere-documenten/scripts/gather-files.sh
+         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/publicatie.git
       - name: Commit release
@@ -44,7 +44,7 @@ jobs:
           key: ${{ github.run_id }}
       - name: Rename index
         run: |
-          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-meerdere-documenten/scripts/gather-files.sh
+          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
           bash gather-files.sh
           mkdir _site
           mv ~/content/* _site
@@ -82,7 +82,7 @@ jobs:
           key: ${{ github.run_id }}
       - name: Gather files
         run: |
-         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-meerdere-documenten/scripts/gather-files.sh
+         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$PREVIEW_REPOSITORY_NAME.git
       - name: Commit preview
