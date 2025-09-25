@@ -2,34 +2,34 @@ name: Build
 on:
   workflow_call:
     inputs:
-      source_input_file_name:
-        default: 'index.html'
+      workflow_input_file_names:
+        default: ['index.html']
         type: string
-      multiple_files:
-        default: false
-        type: boolean
 jobs:
   main:
     name: Snapshot
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        source_input_file_name: ${{ inputs.workflow_input_file_names }}
     steps:
       - run: mkdir ~/static
       - uses: actions/checkout@v4
       - name: Static HTML
         run: |
-          npx respec --localhost --src ${{ inputs.source_input_file_name }} --out ~/static/${{ inputs.source_input_file_name }} --haltonwarn
+          npx respec --localhost --src ${{ matrix.source_input_file_name }} --out ~/static/${{ matrix.source_input_file_name }} --haltonwarn
       - name: PDF
         run: |
-         cp ~/static/${{ inputs.source_input_file_name }} ${{ inputs.source_input_file_name }}
+         cp ~/static/${{ matrix.source_input_file_name }} ${{ matrix.source_input_file_name }}
          npm i puppeteer
          python3 -m http.server 8080 &
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/pr-timvdlippe-meerdere-documenten/scripts/pdf.js
          rm -f *.pdf
-         node pdf.js ${{ inputs.source_input_file_name }}
+         node pdf.js ${{ matrix.source_input_file_name }}
          find *.pdf
          mv *.pdf ~/static/
       - name: Create cache
         uses: actions/cache/save@v4
         with:
           path: ~/static
-          key: ${{ github.run_id }}${{ inputs.multiple_files && format('-{0}', inputs.source_input_file_name) }}
+          key: ${{ github.run_id }}${{ strategy.job-total > 1 && format('-{0}', matrix.source_input_file_name) }}
