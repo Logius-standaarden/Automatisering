@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       workflow_input_file_names:
-        default: ['index.html']
+        default: '["index.html"]'
         type: string
 jobs:
   main:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        source_input_file_name: ${{ inputs.workflow_input_file_names }}
+        source_input_file_name: ${{ fromJSON(inputs.workflow_input_file_names) }}
     steps:
       - run: mkdir ~/static
       - uses: actions/checkout@v4
