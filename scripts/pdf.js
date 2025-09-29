@@ -12,7 +12,11 @@ const FILE_NAME = process.argv[2];
     const pdfName = await page.evaluate(() => {
       const element = document.getElementById('initialUserConfig');
       const initialUserConfig = JSON.parse(element.innerText);
-      return `${initialUserConfig.pubDomain}-${initialUserConfig.shortName}-${initialUserConfig.publishVersion}.pdf`;
+      let pdfSuffix = ".pdf";
+      if (initialUserConfig.fileName !== "") {
+        pdfSuffix = `-${initialUserConfig.fileName.split("\.")[0]}.pdf`
+      }
+      return `${initialUserConfig.pubDomain}-${initialUserConfig.shortName}-${initialUserConfig.publishVersion}${pdfSuffix}`;
     });
     if (typeof pdfName !== 'string') {
       throw new Error(`Couldn't obtain the name in ${FILE_NAME}. Got ${pdfName} instead`);
