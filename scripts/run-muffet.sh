@@ -8,7 +8,7 @@ muffet \
     --exclude 'sitearchief.nl' \
     --exclude 'opengis.net' \
     --exclude 'https://creativecommons.org/licenses/by/4.0/legalcode' \
-    --exclude 'https://www.nen.nl/nen-7513-2024-nl-329182' \
+    --exclude 'https://www.nen.nl/' \
     --exclude 'http://iso6523.info/' \
     --header 'user-agent:Curl' \
     --ignore-fragments \
