@@ -63,7 +63,7 @@ def generate_html_for_redirect(publishVersion, location):
 
 def create_redirect_for_version(publishVersion):
     with open(f'{SPECIFICATION_FOLDER}/index.html', 'w') as root_index_file:
-        root_index_file.write(generate_html_for_redirect(publishVersion, "./" + publishVersion))
+        root_index_file.write(generate_html_for_redirect(publishVersion, "./" + publishVersion + "/"))
 
     current_version = publishVersion
 
@@ -73,7 +73,7 @@ def create_redirect_for_version(publishVersion):
         os.makedirs(version_less_directory, exist_ok=True)
 
         with open(version_less_directory / 'index.html', 'w') as version_redirect_file:
-            version_redirect_file.write(generate_html_for_redirect(publishVersion, "../" + publishVersion))
+            version_redirect_file.write(generate_html_for_redirect(publishVersion, "../" + publishVersion + "/"))
 
         current_version = version_without_last_number
 
