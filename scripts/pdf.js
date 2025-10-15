@@ -13,7 +13,7 @@ const FILE_NAME = process.argv[2];
       const element = document.getElementById('initialUserConfig');
       const initialUserConfig = JSON.parse(element.innerText);
       let pdfSuffix = ".pdf";
-      if (initialUserConfig.fileName !== "") {
+      if (initialUserConfig.fileName && initialUserConfig.fileName !== "") {
         pdfSuffix = `-${initialUserConfig.fileName.split("\.")[0]}.pdf`
       }
       return `${initialUserConfig.pubDomain}-${initialUserConfig.shortName}-${initialUserConfig.publishVersion}${pdfSuffix}`;
