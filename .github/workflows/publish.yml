@@ -68,12 +68,15 @@ jobs:
   preview:
     name: Preview
     runs-on: ubuntu-22.04
-    if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork && github.repository_owner == 'Logius-standaarden' && github.head_ref != 'develop' }}
+    if: ${{ github.event_name == 'pull_request' && github.head_ref != 'develop' }}
     env:
       ORGANISATION_URL: https://logius-standaarden.github.io
       PREVIEW_REPOSITORY_NAME: Publicatie-Preview
       REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
     steps:
+      - name: Check collaborator access
+        run: |
+         gh api /repos/Logius-Standaarden/${{ github.event.repository.name }}/collaborators/${{ github.event.actor.login }}
       - uses: actions/checkout@v4
       - name: Recover HTML
         uses: actions/cache/restore@v4
