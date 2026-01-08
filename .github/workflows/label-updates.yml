@@ -1,0 +1,33 @@
+name: Update labels
+on:
+  workflow_call:
+
+jobs:
+  update-labels:
+    name: "Update labels"
+    runs-on: ubuntu-22.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - run: |
+          gh api ${{ github.event.pull_request._links.issue.href }}/labels \
+            --jq 'map(select(.name | startswith("Status: ") == false) | .name)' > labels.json
+          if ${{ github.event.pull_request.merged == true }}; then
+            NEW_LABEL="Status: Klaar voor release"
+          elif ${{ github.event.pull_request.state == 'closed' }}; then
+            NEW_LABEL="Status: Afgewezen"
+          else
+            review_status=$(gh api ${{ github.event.pull_request._links.self.href }}/reviews --jq 'map(select(.author_association == "MEMBER")) | last.state')
+            if [[ "$review_status" == "APPROVED" ]]; then
+              NEW_LABEL="Status: Ter goedkeuring"
+            else
+              NEW_LABEL="Status: In bewerking"
+            fi
+          fi
+
+          echo $NEW_LABEL
+
+          gh api \
+            --method PUT \
+            ${{ github.event.pull_request._links.issue.href }}/labels \
+            --input - <<< $(node -e "console.log(JSON.stringify(require('./labels.json').concat(['$NEW_LABEL'])))")
