@@ -25,9 +25,17 @@ jobs:
             fi
           fi
 
-          echo $NEW_LABEL
+          # Voor beheer PR's willen we geen status, want die hoeven niet geagendeerd
+          # en goedgekeurd te worden tijdens een TO.
+          if ${{ startsWith(github.event.pull_request.title, 'Beheer: ') }}; then
+            NEW_LABEL_JSON=""
+          else
+            NEW_LABEL_JSON=".concat(['$NEW_LABEL'])"
+          fi
+
+          echo $NEW_LABEL_JSON
 
           gh api \
             --method PUT \
             ${{ github.event.pull_request._links.issue.href }}/labels \
-            --input - <<< $(node -e "console.log(JSON.stringify(require('./labels.json').concat(['$NEW_LABEL'])))")
+            --input - <<< $(node -e "console.log(JSON.stringify(require('./labels.json')$NEW_LABEL_JSON))")
