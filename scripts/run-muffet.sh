@@ -10,6 +10,7 @@ muffet \
     --exclude 'https://creativecommons.org/licenses/by/4.0/legalcode' \
     --exclude 'https://www.nen.nl/' \
     --exclude 'http://iso6523.info/' \
+    --exclude 'github.com\/[^\/]\/[^\/]\/commits'
     --header 'user-agent:Curl' \
     --ignore-fragments \
     --one-page-only \
