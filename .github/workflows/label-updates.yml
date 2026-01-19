@@ -1,6 +1,11 @@
 name: Update labels
 on:
   workflow_call:
+    inputs:
+      technisch_overleg:
+        description: "Naam van het overleg. Gebruik de volgende: ['API', 'DK', 'OAuth']"
+        required: true
+        type: string
 
 jobs:
   update-labels:
@@ -30,7 +35,7 @@ jobs:
           if ${{ startsWith(github.event.pull_request.title, 'Beheer: ') }}; then
             NEW_LABEL_JSON=""
           else
-            NEW_LABEL_JSON=".concat(['$NEW_LABEL'])"
+            NEW_LABEL_JSON=".concat(['$NEW_LABEL', 'Overleg: TO-${{ inputs.technisch_overleg }}'])"
           fi
 
           echo $NEW_LABEL_JSON
