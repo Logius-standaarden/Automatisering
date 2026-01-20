@@ -15,6 +15,11 @@ jobs:
     steps:
       - run: mkdir ~/static
       - uses: actions/checkout@v4
+      - name: Prepareer consultatieversie
+        if: ${{ startsWith(github.head_ref, 'consultatie/') }}
+        run: |
+          REPLACEMENT_REGEX="s/specStatus: ['\"][a-zA-Z]*['\"]/specStatus: \"cv\"/"
+          sed -i '' "$REPLACEMENT_REGEX" js/config.mjs
       - name: Static HTML
         run: |
           npx respec --localhost --src ${{ matrix.source_input_file_name }} --out ~/static/${{ matrix.source_input_file_name }} --haltonwarn
