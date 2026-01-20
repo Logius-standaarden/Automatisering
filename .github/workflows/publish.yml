@@ -117,7 +117,7 @@ jobs:
   consultatie:
     name: Publiceer consultatie
     runs-on: ubuntu-22.04
-    if: ${{ !github.event.pull_request.head.repo.fork && startsWith(github.head_ref, 'consultatie/') }}
+    if: ${{ !github.event.pull_request.head.repo.fork && !github.event.pull_request.draft && startsWith(github.head_ref, 'consultatie/') }}
     env:
       CONSULTATIE_REPOSITORY_NAME: Openbare-Consultaties
       REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
