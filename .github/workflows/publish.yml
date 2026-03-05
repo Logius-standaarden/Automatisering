@@ -161,6 +161,8 @@ jobs:
          cd $CONSULTATIE_NAME
 
          if [ ! -f README.md ]; then
+            mkdir -p ~/consultatie
+            cd ~/consultatie
             npm i puppeteer minimist
             wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/genereer-consultatie-versie/scripts/genereer-consultatie-readme.js
             node genereer-consultatie-readme.js \
@@ -169,6 +171,10 @@ jobs:
                 --email-prefix api \
                 --eind-datum 2026-03-03
             cat README.md
+
+            # Ga terug naar vorige directory
+            cd -
+            cp ~/consultatie/README.md README.md
          fi
 
          rm -f -r $REPOSITORY_NAME
