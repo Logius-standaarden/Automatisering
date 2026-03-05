@@ -133,6 +133,34 @@ jobs:
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$CONSULTATIE_REPOSITORY_NAME.git
+      - name: Serve Files
+        uses: Eun/http-server-action@v1
+        with:
+          content-types: |
+            {
+              "css": "text/css",
+              "html": "text/html",
+              "ico": "image/x-icon",
+              "jpeg": "image/jpeg",
+              "jpg": "image/jpeg",
+              "js": "text/javascript",
+              "json": "application/json",
+              "png": "image/png",
+              "svg": "image/svg+xml",
+              "txt": "text/plain",
+              "xml": "text/xml"
+            }
+      - name: Genereer README als die nog niet bestaat
+        run: |
+         mkdir -p ${{ github.event.repository.name }}
+         cd ${{ github.event.repository.name }}
+         npm i puppeteer minimist
+         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/genereer-consultatie-readme.js
+         node genereer-consultatie-readme.js \
+            --file-name index.html \
+            --technisch-overleg API \
+            --email-prefix api \
+            --eind-datum 2026-03-03
       - name: Commit consultatie
         run: |
          cd $CONSULTATIE_REPOSITORY_NAME
@@ -147,4 +175,4 @@ jobs:
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
          git diff-index --quiet HEAD || git commit -m "Publiceer $CONSULTATIE_AND_REPOSITORY_NAME"
-         git push
+        #  git push
