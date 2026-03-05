@@ -37,6 +37,7 @@ const {
   ['technisch-overleg']: TECHNISCH_OVERLEG,
   ['email-prefix']: EMAIL_PREFIX,
   ['eind-datum']: EIND_DATUM,
+  ['repository-naam']: REPOSITORY_NAAM,
 } = PROCESS_ARGUMENTS;
 
 (async () => {
@@ -51,7 +52,7 @@ const {
     const element = document.getElementById('initialUserConfig');
     const initialUserConfig = JSON.parse(element.innerText);
     const { pubDomain, shortName, publishVersion, github } = initialUserConfig;
-    const standaardNaam = document.title;
+    const standaardNaam = document.title.replace(' ' + publishVersion, '');
     return {
       pubDomain, shortName, publishVersion, github, standaardNaam,
     };
@@ -61,7 +62,7 @@ const {
   const newTemplate = CONSULTATIE_TEMPLATE.replaceAll("**<NAAM-VAN-TO>**", TECHNISCH_OVERLEG)
     .replaceAll("**<STANDAARD-NAAM>**", standaardNaam)
     .replaceAll("**<EMAIL>**", EMAIL_PREFIX)
-    .replaceAll("**<REPOSITORY-NAAM>**", github.replace('https://github.com/Logius-standaarden/', ''))
+    .replaceAll("**<REPOSITORY-NAAM>**", REPOSITORY_NAAM)
     .replaceAll("**<VERSIE-NUMMER>**", publishVersion)
     .replaceAll("**<PUBLICATIE-URL>**", `${pubDomain}/${shortName}`)
     .replaceAll("**<EIND-DATUM>**", EIND_DATUM)

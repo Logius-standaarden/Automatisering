@@ -172,7 +172,8 @@ jobs:
                 --file-name index.html \
                 --technisch-overleg API \
                 --email-prefix api \
-                --eind-datum 2026-03-03
+                --eind-datum 2026-03-03 \
+                --repository-naam "${{ github.event.repository.name }}"
             cat README.md
 
             # Ga terug naar vorige directory
