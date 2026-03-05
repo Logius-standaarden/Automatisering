@@ -151,31 +151,31 @@ jobs:
               "txt": "text/plain",
               "xml": "text/xml"
             }
-      - name: Genereer README als die nog niet bestaat
-        run: |
-         CONSULTATIE_NAME=${GITHUB_HEAD_REF##*/}
-         echo "Aanmaken van README in $CONSULTATIE_NAME"
-         mkdir -p $CONSULTATIE_NAME
-         cd $CONSULTATIE_NAME
-         npm i puppeteer minimist
-         wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/genereer-consultatie-versie/scripts/genereer-consultatie-readme.js
-         node genereer-consultatie-readme.js \
-            --file-name index.html \
-            --technisch-overleg API \
-            --email-prefix api \
-            --eind-datum 2026-03-03
       - name: Commit consultatie
         run: |
-         cd $CONSULTATIE_REPOSITORY_NAME
          CONSULTATIE_NAME=${GITHUB_HEAD_REF##*/}
-         echo "Publiceer ${{ github.event.repository.name }} in $CONSULTATIE_NAME"
-         CONSULTATIE_AND_REPOSITORY_NAME="$CONSULTATIE_NAME/${{ github.event.repository.name }}"
-         echo "$CONSULTATIE_AND_REPOSITORY_NAME"
-         rm -f -r $CONSULTATIE_AND_REPOSITORY_NAME
-         mkdir -p $CONSULTATIE_AND_REPOSITORY_NAME
-         mv ~/content/* $CONSULTATIE_AND_REPOSITORY_NAME
+         REPOSITORY_NAME="${{ github.event.repository.name }}"
+         echo "Publiceer $REPOSITORY_NAME in $CONSULTATIE_NAME"
+
+         mkdir -p $CONSULTATIE_NAME
+         cd $CONSULTATIE_NAME
+
+         if [ ! -f README.md ]; then
+            npm i puppeteer minimist
+            wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/genereer-consultatie-versie/scripts/genereer-consultatie-readme.js
+            node genereer-consultatie-readme.js \
+                --file-name index.html \
+                --technisch-overleg API \
+                --email-prefix api \
+                --eind-datum 2026-03-03
+            cat README.md
+         fi
+
+         rm -f -r $REPOSITORY_NAME
+         mkdir -p $REPOSITORY_NAME
+         mv ~/content/* $REPOSITORY_NAME
          git add -A
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
-         git diff-index --quiet HEAD || git commit -m "Publiceer $CONSULTATIE_AND_REPOSITORY_NAME"
+         git diff-index --quiet HEAD || git commit -m "Publiceer $CONSULTATIE_NAME/$REPOSITORY_NAME"
         #  git push
