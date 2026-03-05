@@ -122,7 +122,6 @@ jobs:
       CONSULTATIE_REPOSITORY_NAME: Openbare-Consultaties
       REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
     steps:
-      - uses: actions/checkout@v4
       - name: Recover HTML
         uses: actions/cache/restore@v4
         with:
