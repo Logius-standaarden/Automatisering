@@ -168,12 +168,7 @@ jobs:
             cd ~/consultatie
             npm i puppeteer minimist
             wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/genereer-consultatie-versie/scripts/genereer-consultatie-readme.js
-            node genereer-consultatie-readme.js \
-                --file-name index.html \
-                --technisch-overleg API \
-                --email-prefix api \
-                --eind-datum 2026-03-03 \
-                --repository-naam "${{ github.event.repository.name }}"
+            node genereer-consultatie-readme.js --repository-naam "${{ github.event.repository.name }}"
             cat README.md
 
             # Ga terug naar vorige directory
