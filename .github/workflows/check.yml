@@ -45,7 +45,7 @@ jobs:
         run: wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/rfc-casing-markdownlinter/scripts/.markdownlint.yaml
       - name: Run linter
         if: ${{ hashFiles('sections/') != '' }}
-        run: markdownlint sections/
+        run: markdownlint -r markdownlint-rule-search-replace sections/
 
   links:
     name: Links
