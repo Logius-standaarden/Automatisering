@@ -10,3 +10,10 @@ line-length: false
 no-inline-html: false
 first-line-h1: false
 emphasis-style: false
+
+search-replace:
+  rules:
+    - name: rfc-casing
+      message: "Use uppercase characters when referencing RFCs"
+      searchPattern: "\\[rfc([0-9]{4})\\]"
+      replace: "[RFC\1]"
