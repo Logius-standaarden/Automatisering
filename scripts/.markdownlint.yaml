@@ -15,6 +15,7 @@ search-replace:
   rules:
     - name: rfc-casing
       message: "Use uppercase characters when referencing RFCs"
-      searchPattern: "\\[rfc([0-9]{4})\\]"
+      searchPattern: "/\\[rfc([0-9]{4})\\]/g"
       replace: "[RFC$1]"
+
 
