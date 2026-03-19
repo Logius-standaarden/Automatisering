@@ -40,7 +40,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install markdownlint
-        run: npm install -g markdownlint-cli markdownlint-rule-search-replace
+        run: npm install -g markdownlint-cli
+      - name: Install markdownlint plugins
+        run: npm install markdownlint-rule-search-replace
       - name: Download configuration
         run: wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/rfc-casing-markdownlinter/scripts/.markdownlint.yaml
       - name: Run linter
