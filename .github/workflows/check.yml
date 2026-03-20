@@ -44,7 +44,7 @@ jobs:
       - name: Install markdownlint plugins
         run: npm install markdownlint-rule-search-replace
       - name: Download configuration
-        run: wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/rfc-casing-markdownlinter/scripts/.markdownlint.yaml
+        run: wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/.markdownlint.yaml
       - name: Run linter
         if: ${{ hashFiles('sections/') != '' }}
         run: markdownlint -r markdownlint-rule-search-replace sections/
