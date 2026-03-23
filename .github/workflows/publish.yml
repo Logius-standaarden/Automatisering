@@ -120,7 +120,7 @@ jobs:
     if: ${{ !github.event.pull_request.head.repo.fork && !github.event.pull_request.draft && (startsWith(github.head_ref, 'consultatie/') || startsWith(github.ref_name, 'consultatie/')) }}
     env:
       CONSULTATIE_REPOSITORY_NAME: Openbare-Consultaties
-      REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -134,9 +134,11 @@ jobs:
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$CONSULTATIE_REPOSITORY_NAME.git
       - name: Commit consultatie
+        env:
+          REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/$BRANCH_NAME
         run: |
          cd $CONSULTATIE_REPOSITORY_NAME
-         CONSULTATIE_NAME=${GITHUB_HEAD_REF##*/}
+         CONSULTATIE_NAME=${BRANCH_NAME##*/}
          echo "Consultatie naam is $CONSULTATIE_NAME"
          CONSULTATIE_AND_REPOSITORY_NAME="$CONSULTATIE_NAME/${{ github.event.repository.name }}"
          echo "$CONSULTATIE_AND_REPOSITORY_NAME"
