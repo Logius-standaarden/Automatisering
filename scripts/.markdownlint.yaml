@@ -11,6 +11,9 @@ no-inline-html: false
 first-line-h1: false
 emphasis-style: false
 
+no-duplicate-heading:
+  siblings_only: true
+
 search-replace:
   rules:
     - name: rfc-casing
