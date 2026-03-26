@@ -44,7 +44,7 @@ const {
   // https://www.bannerbear.com/blog/how-to-convert-html-into-pdf-with-node-js-and-puppeteer/
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  const website_url = `http://localhost:8000/`;
+  const website_url = `http://localhost:8080/`;
   await page.goto(website_url, { waitUntil: 'networkidle0' });
 
   const { pubDomain, shortName, publishVersion, github, emailForConsultation, technischOverleg, standaardNaam } = await page.evaluate(() => {
