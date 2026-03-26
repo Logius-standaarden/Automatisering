@@ -133,10 +133,10 @@ jobs:
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$CONSULTATIE_REPOSITORY_NAME.git
+      - run: cp ~/static/index.html index.html
       - name: Serve Files
         uses: Eun/http-server-action@v1
         with:
-          directory: ~/static
           content-types: |
             {
               "css": "text/css",
