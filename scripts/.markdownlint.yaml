@@ -6,7 +6,18 @@ heading-style:
 ul-style:
   style: consistent
 
+link-fragments: false
 line-length: false
 no-inline-html: false
 first-line-h1: false
 emphasis-style: false
+
+no-duplicate-heading:
+  siblings_only: true
+
+search-replace:
+  rules:
+    - name: rfc-casing
+      message: "Use uppercase characters when referencing RFCs"
+      searchPattern: "/\\[(\\??)rfc([0-9]{4})\\]/g"
+      replace: "[$1RFC$2]"

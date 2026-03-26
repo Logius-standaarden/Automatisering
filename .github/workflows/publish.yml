@@ -117,10 +117,10 @@ jobs:
   consultatie:
     name: Publiceer consultatie
     runs-on: ubuntu-22.04
-    if: ${{ !github.event.pull_request.head.repo.fork && !github.event.pull_request.draft && startsWith(github.head_ref, 'consultatie/') }}
+    if: ${{ !github.event.pull_request.head.repo.fork && !github.event.pull_request.draft && (startsWith(github.head_ref, 'consultatie/') || startsWith(github.ref_name, 'consultatie/')) }}
     env:
       CONSULTATIE_REPOSITORY_NAME: Openbare-Consultaties
-      REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/${{ github.head_ref }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -152,10 +152,11 @@ jobs:
               "xml": "text/xml"
             }
       - name: Commit consultatie
+        env:
+          REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/$BRANCH_NAME
         run: |
          cd $CONSULTATIE_REPOSITORY_NAME
-
-         CONSULTATIE_NAME=${GITHUB_HEAD_REF##*/}
+         CONSULTATIE_NAME=${BRANCH_NAME##*/}
          REPOSITORY_NAME="${{ github.event.repository.name }}"
          echo "Publiceer $REPOSITORY_NAME in $CONSULTATIE_NAME"
 
@@ -179,6 +180,7 @@ jobs:
          rm -f -r $REPOSITORY_NAME
          mkdir -p $REPOSITORY_NAME
          mv ~/content/* $REPOSITORY_NAME
+
          git add -A
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
