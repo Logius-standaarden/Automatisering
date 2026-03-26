@@ -56,7 +56,7 @@ const {
       ...initialUserConfig,
     };
   });
-  console.log(`We hebben: ${pubDomain} ${shortName} ${publishVersion} ${github} ${standaardNaam}`);
+  console.log(`We hebben: ${pubDomain} ${shortName} ${publishVersion} ${github} ${emailForConsultation} ${technischOverleg} ${standaardNaam}`);
 
   const newTemplate = CONSULTATIE_TEMPLATE.replaceAll("**<NAAM-VAN-TO>**", technischOverleg)
     .replaceAll("**<STANDAARD-NAAM>**", standaardNaam)
