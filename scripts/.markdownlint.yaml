@@ -6,6 +6,7 @@ heading-style:
 ul-style:
   style: consistent
 
+link-fragments: false
 line-length: false
 no-inline-html: false
 first-line-h1: false
