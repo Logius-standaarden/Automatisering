@@ -47,8 +47,27 @@ const {
   const website_url = `http://localhost:8080/`;
   await page.goto(website_url, { waitUntil: 'networkidle0' });
 
-  const { pubDomain, shortName, publishVersion, github, emailForConsultation, technischOverleg, standaardNaam } = await page.evaluate(() => {
-    const element = document.getElementById('initialUserConfig');
+  const { pubDomain, shortName, publishVersion, github, emailForConsultation, technischOverleg, standaardNaam } = await page.evaluate(async () => {
+    let element = null;
+    // Respec heeft niet gelijk de user config beschikbaar. Daarom moeten we
+    // (met een timeout van 1 seconde) checken of we het al hebben. Zo niet,
+    // dan falen we alsnog.
+    await Promise.race([
+      new Promise(resolve => {
+        setTimeout(resolve, 1000)
+      }),
+      new Promise(resolve => {
+        setInterval(() => {
+          element = document.getElementById('initialUserConfig');
+          if (element) {
+            resolve();
+          }
+        }, 100);
+      })
+    ]);
+    if (element === null) {
+      throw new Error("Unable to obtain Respec configuration");
+    }
     const initialUserConfig = JSON.parse(element.innerText);
     const standaardNaam = document.title.replace(' ' + initialUserConfig.publishVersion, '');
     return {
