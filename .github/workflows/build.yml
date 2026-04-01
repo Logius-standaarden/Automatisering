@@ -15,6 +15,15 @@ jobs:
     steps:
       - run: mkdir ~/static
       - uses: actions/checkout@v4
+      - name: Check correcte branch
+        if: github.event_name == 'pull_request'
+        run: |
+          if ${{ github.head_ref == 'develop' &&  github.base_ref == 'main' }}; then
+            echo "Maak geen directe PR aan vanaf develop naar main."
+            echo "In plaats daarvan, maak een branch vanaf develop en maak daar een PR van naar main."
+            echo "Hiermee voorkomen we dat we per ongeluk een werkversie (die vanaf develop komt) als definitieve versie neerzetten."
+            exit 1
+          fi
       - name: Prepareer consultatieversie
         if: ${{ startsWith(github.head_ref, 'consultatie/') }}
         run: |
