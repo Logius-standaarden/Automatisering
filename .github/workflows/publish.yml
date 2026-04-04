@@ -133,20 +133,56 @@ jobs:
          wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/gather-files.sh
          bash gather-files.sh
          git clone https://user:${{ secrets.BEHEER }}@github.com/Logius-standaarden/$CONSULTATIE_REPOSITORY_NAME.git
+      - run: cp ~/static/index.html index.html
+      - name: Serve Files
+        uses: Eun/http-server-action@v1
+        with:
+          content-types: |
+            {
+              "css": "text/css",
+              "html": "text/html",
+              "ico": "image/x-icon",
+              "jpeg": "image/jpeg",
+              "jpg": "image/jpeg",
+              "js": "text/javascript",
+              "json": "application/json",
+              "png": "image/png",
+              "svg": "image/svg+xml",
+              "txt": "text/plain",
+              "xml": "text/xml"
+            }
       - name: Commit consultatie
         env:
           REPOSITORY_NAME_AND_BRANCH: ${{ github.event.repository.name }}/$BRANCH_NAME
         run: |
          cd $CONSULTATIE_REPOSITORY_NAME
          CONSULTATIE_NAME=${BRANCH_NAME##*/}
-         echo "Consultatie naam is $CONSULTATIE_NAME"
-         CONSULTATIE_AND_REPOSITORY_NAME="$CONSULTATIE_NAME/${{ github.event.repository.name }}"
-         echo "$CONSULTATIE_AND_REPOSITORY_NAME"
-         rm -f -r $CONSULTATIE_AND_REPOSITORY_NAME
-         mkdir -p $CONSULTATIE_AND_REPOSITORY_NAME
-         mv ~/content/* $CONSULTATIE_AND_REPOSITORY_NAME
+         REPOSITORY_NAME="${{ github.event.repository.name }}"
+         echo "Publiceer $REPOSITORY_NAME in $CONSULTATIE_NAME"
+
+         mkdir -p $CONSULTATIE_NAME
+         cd $CONSULTATIE_NAME
+
+         if [ ! -f README.md ]; then
+            # Ga naar een andere directory zodat we niet per ongeluk `node_modules` mee committen
+            mkdir -p ~/consultatie
+            cd ~/consultatie
+            npm i puppeteer minimist
+            wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/genereer-consultatie-versie/scripts/genereer-consultatie-readme.js
+            node genereer-consultatie-readme.js --repository-naam "${{ github.event.repository.name }}"
+            cat README.md
+
+            # Ga terug naar vorige directory
+            cd -
+            cp ~/consultatie/README.md README.md
+         fi
+
+         rm -f -r $REPOSITORY_NAME
+         mkdir -p $REPOSITORY_NAME
+         mv ~/content/* $REPOSITORY_NAME
+
          git add -A
          git config user.name "GitHub Action"
          git config user.email "api@logius.nl"
-         git diff-index --quiet HEAD || git commit -m "Publiceer $CONSULTATIE_AND_REPOSITORY_NAME"
-         git push
+         git diff-index --quiet HEAD || git commit -m "Publiceer $CONSULTATIE_NAME/$REPOSITORY_NAME"
+        #  git push
