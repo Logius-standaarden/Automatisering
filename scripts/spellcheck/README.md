@@ -1,4 +1,4 @@
-Deze dictionaries komen van Libreoffice vandaan en kun je opnieuw downloaden met:
+De en_GB dictionaries komen van Libreoffice vandaan en kun je opnieuw downloaden met:
 
 ```
 wget -O en_GB.aff https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_GB.aff
