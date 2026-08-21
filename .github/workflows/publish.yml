@@ -114,7 +114,7 @@ jobs:
             echo "BASELINE_URL_DIFF=https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN" >> "$GITHUB_OUTPUT"
           fi
       - name: Post preview link
-        if: steps.findcomment.outputs.comment-id == ''
+        if: steps.findcomment.outputs.comment-id == '' && steps.baseline-url-diff.outputs.BASELINE_URL_DIFF != ''
         uses: peter-evans/create-or-update-comment@v4
         env:
           BASELINE_URL_DIFF: ${{ steps.baseline-url-diff.outputs.BASELINE_URL_DIFF }}
