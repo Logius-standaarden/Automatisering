@@ -106,7 +106,13 @@ jobs:
       - name: Kies baseline URL voor diff
         id: baseline-url-diff
         run: |
-          echo "BASELINE_URL_DIFF=\"${{ env.ORGANISATION_URL }}/${{ github.event.repository.name }}\"" >> "$GITHUB_OUTPUT"
+          if ${{ github.base_ref == 'develop' }}; then
+            echo "BASELINE_URL_DIFF=${{ env.ORGANISATION_URL }}/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+          elif ${{ github.base_ref == 'main' }}; then
+            wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/compute-published-url.js
+            PUBLISHED_DOMAIN=$(node compute-published-url.js)
+            echo "BASELINE_URL_DIFF=https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN" >> "$GITHUB_OUTPUT"
+          fi
       - name: Post preview link
         if: steps.findcomment.outputs.comment-id == ''
         uses: peter-evans/create-or-update-comment@v4
