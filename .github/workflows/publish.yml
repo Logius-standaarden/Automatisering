@@ -109,7 +109,7 @@ jobs:
           if ${{ github.base_ref == 'develop' }}; then
             echo "BASELINE_URL_DIFF=${{ env.ORGANISATION_URL }}/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
           elif ${{ github.base_ref == 'main' }}; then
-            wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/baseline-url-diff/scripts/compute-published-url.mjs
+            wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/compute-published-url.mjs
             PUBLISHED_DOMAIN=$(node compute-published-url.mjs)
             echo "BASELINE_URL_DIFF=https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN" >> "$GITHUB_OUTPUT"
           fi
