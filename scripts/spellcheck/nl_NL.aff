@@ -28,7 +28,7 @@ TRY  -ernitsaoldgkupmchbvjwfzyx'’ëqïéèö.êü12635407çà8û9îñäôERNIT
 # combined layout for BE and NL keyboards NL en BE
 KEY qwertyuiop|asdfghjkl|zxcvbnm|qawsedrftgyhujikolp|azsxdcfvgbhnjmk|aze|qsd|lm|wx|aqz|qws|
 
-WORDCHARS '’0123456789ĳ.-\/+
+WORDCHARS ’0123456789ĳ.-\/+
 # . is only useful as wordchar from the command line
 # \/ should make the / acceptable as part of word (km/h)
 # the way applications offer words to the Hunspell interface apperently differs,
@@ -98,9 +98,10 @@ ICONV IJ Ĳ
 
 # trick to uppercase ij as IJ
 # note the REP-statements on the ij as well
-OCONV 2
+OCONV 3
 OCONV ĳ ij
 OCONV Ĳ IJ
+OCONV ' ’
 
 REP 884
 REP a's$ a	# centra's=>centra
