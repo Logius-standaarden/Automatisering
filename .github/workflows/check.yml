@@ -104,8 +104,10 @@ jobs:
         run: |
           REPLACEMENT_REGEX="s/spellcheck: false/spellcheck: true/"
           sed -i "$REPLACEMENT_REGEX" js/config.mjs
+          sed -i "$REPLACEMENT_REGEX" js/config-en.mjs
           mkdir ~/static
           npx respec --localhost --src index.html --out ~/static/index.html --haltonwarn
+          npx respec --localhost --src index_en.html --out ~/static/index_en.html --haltonwarn
       - name: Run spellcheck (Nederlands)
         if: ${{ hashFiles('standaard.dic') != '' }}
         run: |
@@ -119,7 +121,7 @@ jobs:
       - name: Run spellcheck (Engels)
         if: ${{ hashFiles('standaard_en.dic') != '' }}
         run: |
-          hunspell -l -d en_GB,logius,standaard_en -H ~/static/index.html | sort -u > spelling.txt
+          hunspell -l -d en_GB,logius,standaard_en -H ~/static/index_en.html | sort -u > spelling.txt
           if [ -s spelling.txt ]; then
             echo "De volgende woorden zijn niet toegestaan in het Brits Engels:"
             cat spelling.txt
