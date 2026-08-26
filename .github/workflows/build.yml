@@ -8,7 +8,7 @@ on:
 jobs:
   main:
     name: Snapshot
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         source_input_file_name: ${{ fromJSON(inputs.workflow_input_file_names) }}
