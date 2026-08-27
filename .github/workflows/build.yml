@@ -31,7 +31,7 @@ jobs:
           sed -i "$REPLACEMENT_REGEX" js/config.mjs
       - name: Static HTML
         run: |
-          npx respec --localhost --src ${{ matrix.source_input_file_name }} --out ~/static/${{ matrix.source_input_file_name }} --haltonwarn
+          npx respec@37.2.0 --localhost --src ${{ matrix.source_input_file_name }} --out ~/static/${{ matrix.source_input_file_name }} --haltonwarn
       - name: PDF
         run: |
          cp ~/static/${{ matrix.source_input_file_name }} ${{ matrix.source_input_file_name }}
