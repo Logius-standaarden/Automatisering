@@ -4,7 +4,7 @@ on:
 jobs:  
   wcag:
     name: WCAG
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v4
       - name: Recover HTML
@@ -36,7 +36,7 @@ jobs:
   
   markdownlint:
     name: Markdownlint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v4
       - name: Install markdownlint
@@ -88,7 +88,7 @@ jobs:
           bash run-muffet.sh http://localhost:8080/index.html
   spellchecker:
     name: Run spellcheck
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 24

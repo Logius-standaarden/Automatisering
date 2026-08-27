@@ -9,7 +9,7 @@ on:
 jobs:
   link-checker:
     name: Check published links
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     if: ${{ github.repository_owner == 'Logius-standaarden' && github.repository != 'Logius-standaarden/ReSpec-template' }}
     steps:
       - uses: actions/checkout@v4
