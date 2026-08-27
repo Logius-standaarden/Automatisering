@@ -111,12 +111,12 @@ jobs:
           elif ${{ github.base_ref == 'main' || github.base_ref == 'master' }}; then
             wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/compute-published-url.mjs
             PUBLISHED_DOMAIN=$(node compute-published-url.mjs --previous-url)
-            echo "BASELINE_URL_DIFF=https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN" >> "$GITHUB_OUTPUT"
+            echo "BASELINE_URL_DIFF=$PUBLISHED_DOMAIN" >> "$GITHUB_OUTPUT"
           else
             echo "BASELINE_URL_DIFF=${{ env.ORGANISATION_URL }}/${{ env.PREVIEW_REPOSITORY_NAME }}/${{ github.event.repository.name }}/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
           fi
       - name: Post preview link
-        if: steps.findcomment.outputs.comment-id == ''
+        if: steps.findcomment.outputs.comment-id == '' && steps.baseline-url-diff.outputs.BASELINE_URL_DIFF != ''
         uses: peter-evans/create-or-update-comment@v4
         env:
           BASELINE_URL_DIFF: ${{ steps.baseline-url-diff.outputs.BASELINE_URL_DIFF }}

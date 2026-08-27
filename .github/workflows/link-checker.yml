@@ -24,7 +24,7 @@ jobs:
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/compute-published-url.mjs
           PUBLISHED_DOMAIN=$(node compute-published-url.mjs)
           wget https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/run-muffet.sh
-          bash run-muffet.sh https://gitdocumentatie.logius.nl/publicatie/$PUBLISHED_DOMAIN > muffet.json || true
+          bash run-muffet.sh $PUBLISHED_DOMAIN > muffet.json || true
       - name: Collect broken links
         id: collect-broken-links
         run: |
