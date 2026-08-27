@@ -107,7 +107,7 @@ jobs:
           REPLACEMENT_REGEX="s/spellcheck: false/spellcheck: true/"
           sed -i "$REPLACEMENT_REGEX" js/config.mjs
           mkdir ~/static
-          npx respec@37.2.0 --localhost --src index.html --out ~/static/index.html --haltonwarn
+          npx respec --localhost --src index.html --out ~/static/index.html --haltonwarn
       - name: Run spellcheck
         if: ${{ hashFiles('standaard.dic') != '' }}
         run: |
