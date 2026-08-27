@@ -15,6 +15,10 @@ jobs:
     steps:
       - run: mkdir ~/static
       - uses: actions/checkout@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
       - name: Check correcte branch
         if: github.event_name == 'pull_request'
         run: |
