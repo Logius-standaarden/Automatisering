@@ -102,18 +102,36 @@ jobs:
           wget -O en_GB.dic https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/spellcheck/en_GB.dic
           wget -O logius.aff https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/spellcheck/logius.aff
           wget -O logius.dic https://raw.githubusercontent.com/Logius-standaarden/Automatisering/main/scripts/spellcheck/logius.dic
-      - name: Build spellcheck version of standard
+          wget -O nl_NL.aff https://raw.githubusercontent.com/Logius-standaarden/Automatisering/sta-engelse-standaard-toe/scripts/spellcheck/nl_NL.aff
+          wget -O nl_NL.dic https://raw.githubusercontent.com/Logius-standaarden/Automatisering/sta-engelse-standaard-toe/scripts/spellcheck/nl_NL.dic
+      - name: Build spellcheck version of standard (Nederlands)
         run: |
           REPLACEMENT_REGEX="s/spellcheck: false/spellcheck: true/"
           sed -i "$REPLACEMENT_REGEX" js/config.mjs
-          mkdir ~/static
+          mkdir -p ~/static
           npx respec --localhost --src index.html --out ~/static/index.html --haltonwarn
-      - name: Run spellcheck
+      - name: Build spellcheck version of standard (Engels)
+        run: |
+          REPLACEMENT_REGEX="s/spellcheck: false/spellcheck: true/"
+          sed -i "$REPLACEMENT_REGEX" js/config-en.mjs
+          mkdir -p ~/static
+          npx respec --localhost --src index_en.html --out ~/static/index_en.html --haltonwarn
+      - name: Run spellcheck (Nederlands)
         if: ${{ hashFiles('standaard.dic') != '' }}
         run: |
-          hunspell -l -d en_GB,logius,standaard -H ~/static/index.html | sort -u > spelling.txt
+          # TODO: Verander "en_GB" naar "nl_NL" nadat de huidige gebruikers de "standaard_en.dic" hebben
+          hunspell -l -d nl_NL,logius,standaard -H ~/static/index.html | sort -u > spelling.txt
           if [ -s spelling.txt ]; then
-            echo "De volgende woorden zijn niet toegestaan:"
+            echo "De volgende woorden zijn niet toegestaan in het Nederlands:"
+            cat spelling.txt
+            exit 1
+          fi
+      - name: Run spellcheck (Engels)
+        if: ${{ hashFiles('standaard_en.dic') != '' }}
+        run: |
+          hunspell -l -d en_GB,logius,standaard_en -H ~/static/index_en.html | sort -u > spelling.txt
+          if [ -s spelling.txt ]; then
+            echo "De volgende woorden zijn niet toegestaan in het Brits Engels:"
             cat spelling.txt
             exit 1
           fi
