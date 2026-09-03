@@ -23,22 +23,28 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           if ${{ github.head_ref == 'develop' &&  github.base_ref == 'main' }}; then
+            echo "::group::Incorrecte branch"
             echo "Maak geen directe PR aan vanaf develop naar main."
             echo "In plaats daarvan, maak een branch vanaf develop en maak daar een PR van naar main."
             echo "Hiermee voorkomen we dat we per ongeluk een werkversie (die vanaf develop komt) als definitieve versie neerzetten."
+            echo "::endgroup::"
             exit 1
           fi
           if ${{ github.head_ref == 'main' &&  github.base_ref == 'develop' }}; then
+            echo "::group::Incorrecte branch"
             echo "Maak geen directe PR aan vanaf main naar develop."
             echo "In plaats daarvan, maak een branch vanaf main en maak daar een PR van naar develop."
             echo "Hiermee voorkomen we dat we per ongeluk een definitieve versie (die vanaf main komt) als werkversie neerzetten."
+            echo "::endgroup::"
             exit 1
           fi
           if ${{ github.base_ref == 'main' }}; then
             HAS_DEF_STATUS=$(grep -i "specStatus:\s*['\"]def['\"]" js/config.mjs)
 
             if [ -z "$HAS_DEF_STATUS" ]; then
+              echo "::group::Incorrecte specStatus"
               echo "Zet de specStatus op DEF voor publicatie"
+              echo "::endgroup::"
               exit 1
             fi
           fi
@@ -46,7 +52,9 @@ jobs:
             HAS_WV_STATUS=$(grep -i "specStatus:\s*['\"]wv['\"]" js/config.mjs)
 
             if [ -z "$HAS_WV_STATUS" ]; then
+              echo "::group::Incorrecte specStatus"
               echo "Zet de specStatus op WV voor een werkversie"
+              echo "::endgroup::"
               exit 1
             fi
           fi
