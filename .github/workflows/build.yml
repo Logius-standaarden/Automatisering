@@ -35,7 +35,7 @@ jobs:
             exit 1
           fi
           if ${{ github.base_ref == 'main' }}; then
-            HAS_DEF_STATUS=$(grep -i "specStatus:\s*['\"]def['\"]" js/config.mjs)
+            HAS_DEF_STATUS=$(grep -i "specStatus:\s*['\"]def['\"]" js/config.mjs || true)
 
             if [ -z "$HAS_DEF_STATUS" ]; then
               echo "Zet de specStatus op DEF voor publicatie"
@@ -43,7 +43,7 @@ jobs:
             fi
           fi
           if ${{ github.base_ref == 'develop' }}; then
-            HAS_WV_STATUS=$(grep -i "specStatus:\s*['\"]wv['\"]" js/config.mjs)
+            HAS_WV_STATUS=$(grep -i "specStatus:\s*['\"]wv['\"]" js/config.mjs || true)
 
             if [ -z "$HAS_WV_STATUS" ]; then
               echo "Zet de specStatus op WV voor een werkversie"
