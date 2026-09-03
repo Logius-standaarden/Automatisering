@@ -28,6 +28,28 @@ jobs:
             echo "Hiermee voorkomen we dat we per ongeluk een werkversie (die vanaf develop komt) als definitieve versie neerzetten."
             exit 1
           fi
+          if ${{ github.head_ref == 'main' &&  github.base_ref == 'develop' }}; then
+            echo "Maak geen directe PR aan vanaf main naar develop."
+            echo "In plaats daarvan, maak een branch vanaf main en maak daar een PR van naar develop."
+            echo "Hiermee voorkomen we dat we per ongeluk een definitieve versie (die vanaf main komt) als werkversie neerzetten."
+            exit 1
+          fi
+          if ${{ github.base_ref == 'main' }}; then
+            HAS_DEF_STATUS=$(grep -i "specStatus:\s*['\"]def['\"]" js/config.mjs)
+
+            if [ -z "$HAS_DEF_STATUS" ]; then
+              echo "Zet de specStatus op DEF voor publicatie"
+              exit 1
+            fi
+          fi
+          if ${{ github.base_ref == 'develop' }}; then
+            HAS_WV_STATUS=$(grep -i "specStatus:\s*['\"]wv['\"]" js/config.mjs)
+
+            if [ -z "$HAS_WV_STATUS" ]; then
+              echo "Zet de specStatus op WV voor een werkversie"
+              exit 1
+            fi
+          fi
       - name: Prepareer consultatieversie
         if: ${{ startsWith(github.head_ref, 'consultatie/') }}
         run: |
