@@ -16,7 +16,7 @@ jobs:
         with:
           ref: main
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
       - name: Install muffet
         run: brew install muffet
       - name: Check published documents
