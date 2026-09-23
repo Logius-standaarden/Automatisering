@@ -16,4 +16,5 @@ muffet \
     --one-page-only \
     --format=json \
     --buffer-size 8192 \
+    --accepted-status-codes=200..300,403 \
     $URL_TO_CHECK
