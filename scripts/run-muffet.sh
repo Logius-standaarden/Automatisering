@@ -16,5 +16,5 @@ muffet \
     --one-page-only \
     --format=json \
     --buffer-size 8192 \
-    --accepted-status-codes="200..300,403" \ # Unfortunately AI agent crawling requires us to ignore 403 errors, since this checker is caught in the crossfire
+    --accepted-status-codes="200..300,403" # Unfortunately AI agent crawling requires us to ignore 403 errors, since this checker is caught in the crossfire \
     $URL_TO_CHECK
