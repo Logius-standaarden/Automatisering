@@ -11,7 +11,7 @@ muffet \
     --exclude 'https://www.nen.nl/' \
     --exclude 'http://iso6523.info/' \
     --exclude 'github.com\/[^\/]+\/[^\/]+\/commits' \
-    --header 'user-agent:Curl' \
+    --header 'user-agent:muffet' \
     --ignore-fragments \
     --one-page-only \
     --format=json \
