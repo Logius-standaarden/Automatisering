@@ -86,7 +86,7 @@ if len(pubDomain) * len(shortName) * len(publishVersion) > 0:
         if os.path.exists(published_path):
             shutil.rmtree(published_path)
         shutil.copytree(CONTENT_DIRECTORY, published_path)
-        if specStatus.lower() != "vv":
+        if specStatus.lower() == "def":
             create_redirect_for_version(publishVersion)
     except Exception as e:
         print(e)
