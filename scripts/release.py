@@ -22,6 +22,7 @@ def readConfigForFile(config_file):
         pubDomain = ""
         shortName = ""
         publishVersion = ""
+        specStatus = ""
     
         for line in f:
             if "pubDomain" in line:
@@ -36,13 +37,14 @@ def readConfigForFile(config_file):
                 val = getValue("publishVersion", line)
                 if val:
                     publishVersion = val
+            elif "specStatus" in line:
+                val = getValue("specStatus", line)
+                if val:
+                    specStatus = val
 
-        return (pubDomain, shortName, publishVersion)
+        return (pubDomain, shortName, publishVersion, specStatus)
 
-try:
-    pubDomain, shortName, publishVersion = readConfigForFile("js/config.mjs")
-except:
-    pubDomain, shortName, publishVersion = readConfigForFile("js/config.js")
+pubDomain, shortName, publishVersion, specStatus = readConfigForFile("js/config.mjs")
 
 SPECIFICATION_FOLDER = CURRENT_WORKING_DIRECTORY / "publicatie" / pubDomain / shortName
 
@@ -68,7 +70,7 @@ def create_redirect_for_version(publishVersion):
     current_version = publishVersion
 
     while current_version.find(".") > 0:
-        version_without_last_number = ".".join(re.split("\.", current_version)[:-1])
+        version_without_last_number = ".".join(re.split("\\.", current_version)[:-1])
         version_less_directory = SPECIFICATION_FOLDER / version_without_last_number
         os.makedirs(version_less_directory, exist_ok=True)
 
@@ -84,7 +86,8 @@ if len(pubDomain) * len(shortName) * len(publishVersion) > 0:
         if os.path.exists(published_path):
             shutil.rmtree(published_path)
         shutil.copytree(CONTENT_DIRECTORY, published_path)
-        create_redirect_for_version(publishVersion)
+        if specStatus.lower() == "def":
+            create_redirect_for_version(publishVersion)
     except Exception as e:
         print(e)
 else:
